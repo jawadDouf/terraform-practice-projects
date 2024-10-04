@@ -65,15 +65,7 @@ resource "aws_instance" "redhat_ec2_instance" {
   key_name                    = aws_key_pair.deployer.key_name
   vpc_security_group_ids      = [aws_security_group.nginx_cont_sg.id]
 
-  user_data = <<-EOF
-     #!/bin/bash
-     sudo yum update -y
-     sudo amazon-linux-extras install docker -y
-     sudo service docker start
-     sudo usermod -aG docker ec2-user
-     docker run -d -p 8000:80 nginx
-   EOF
-
+  user_data = file("cloud-init-config.yaml")
 
   tags = {
     Name = "RHEL-8.6-Instance"
