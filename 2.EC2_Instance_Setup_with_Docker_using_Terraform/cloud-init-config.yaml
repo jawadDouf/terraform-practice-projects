@@ -6,5 +6,5 @@ packages:
 
 runcmd:
   - [ systemctl, start, docker ]
-  - [ docker, run, -d, -p, "80:80", nginx ]
+  - [ docker, run, -d, -p, "8000:80", nginx ]
 
