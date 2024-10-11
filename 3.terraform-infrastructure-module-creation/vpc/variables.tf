@@ -39,3 +39,14 @@ variable "private_subnet_name" {
   type = string
   default = "private_subnet"
 }
+
+# traffic variables
+variable "igw_name" {
+  type = string
+  default = "public_internet_gateway"
+}
+
+variable "public_internet_route_table_name" {
+  type = string
+  default = "public_internet_route_table"
+}

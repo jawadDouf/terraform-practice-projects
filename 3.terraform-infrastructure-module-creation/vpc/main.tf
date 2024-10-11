@@ -14,7 +14,7 @@ resource "aws_vpc" "main" {
 
 # public subnet
 resource "aws_subnet" "public_subnet" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.var.vpc_name.id
   cidr_block        = var.public_subnet_cidr
   availability_zone = var.public_subnet_az
   map_public_ip_on_launch = true
@@ -26,7 +26,7 @@ resource "aws_subnet" "public_subnet" {
 
 # private subnet
 resource "aws_subnet" "private_subnet" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.var.vpc_name.id
   cidr_block        = var.private_subnet_cidr
   availability_zone = var.public_subnet_az
 
@@ -34,3 +34,22 @@ resource "aws_subnet" "private_subnet" {
     Name = var.private_subnet_name
   }
 }
+
+# IGW and route tables specifications
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.var.vpc_name.id
+
+  tags = {
+    Name = var.igw_name
+  }
+}
+
+resource "aws_route_table" "name" {
+  vpc_id = aws_vpc.var.vpc_name.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+}
+
