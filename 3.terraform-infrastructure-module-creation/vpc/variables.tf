@@ -6,7 +6,6 @@ variable "vpc_cidr" {
 
 variable "vpc_name" {
   type = string
-  default = "main_vpc"
 }
 # public sunet variales
 variable "public_subnet_cidr" {

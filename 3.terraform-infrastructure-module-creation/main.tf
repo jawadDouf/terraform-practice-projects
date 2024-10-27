@@ -4,15 +4,16 @@ provider "aws" {
 
 
 module "test_vpc" {
-  source = "./vpc"
-  
+  source = "./vpc" 
+  vpc_name = "principal_vpc"
 }
 
-module "security_group_test" {
-  source = "./security-group"  
-}
+//module "security_group_test" {
+  //source = "./security-group"  
+//}
 
-module "ec2_instance" {
+module "ec2_module_instance" {
   source = "./ec2"
-  vpc_security_group_ids = module.security_group_test.security_group_id
+  ec2_instance_name = "main_ec2"
+  ec2_subnet_id = module.test_vpc
 }
