@@ -1,17 +1,17 @@
 # vpc cidr ip adresses
-resource "aws_vpc" "main" {
+resource "aws_vpc" "this" {
   cidr_block = var.vpc_cidr
   tags = {
     Name = var.vpc_name
   }
-} 
+}
 
 
 # public subnet
 resource "aws_subnet" "public_subnet" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.public_subnet_cidr
-  availability_zone = var.public_subnet_az
+  vpc_id                  = aws_vpc.this.id
+  cidr_block              = var.public_subnet_cidr
+  availability_zone       = var.public_subnet_az
   map_public_ip_on_launch = true
 
   tags = {
@@ -21,7 +21,7 @@ resource "aws_subnet" "public_subnet" {
 
 # private subnet
 resource "aws_subnet" "private_subnet" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.this.id
   cidr_block        = var.private_subnet_cidr
   availability_zone = var.public_subnet_az
 
@@ -32,7 +32,7 @@ resource "aws_subnet" "private_subnet" {
 
 # IGW and route tables specifications
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.this.id
 
   tags = {
     Name = var.igw_name
@@ -40,7 +40,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 resource "aws_route_table" "name" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.this.id
 
   route {
     cidr_block = "0.0.0.0/0"
